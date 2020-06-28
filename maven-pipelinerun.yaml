@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  generateName: maven-build-run-
+spec:
+  pipelineRef:
+    name: maven-build
+  resources:
+  - name: app-git
+    resourceSpec:
+      type: git
+      params:
+        - name: url
+          value: git@github.com:brihadeeswara/quarkusapi.git
+  workspaces:
+  - name: local-maven-repo
+    persistentVolumeClaim:
+      claimName: maven-repo-pvc
